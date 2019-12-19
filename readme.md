@@ -1,6 +1,6 @@
 # Game Physics Project #1
 
-This repository contains the assignment project for Game Physics (TGD 2251) subject which is fully or completely, without any assistance from any lecturers or students in Multimedia University, done by me (Oo Jin Heng 1161303917). The project is developed with the language, C++, with additional allowed third party library, (Box2D)[https://github.com/erincatto/Box2D] and (SFML)[https://github.com/SFML/SFML] only. The graphical and audio assets are taken online. To keep the project portable, the sources and library files of Box2D and SFML are included in this project.
+This repository contains the assignment project for Game Physics (TGD 2251) subject which is fully or completely, without any assistance from any lecturers or students in Multimedia University, done by me (Oo Jin Heng 1161303917). The project is developed with the language, C++, with additional allowed third party library, [Box2D](https://github.com/erincatto/Box2D) and [SFML](https://github.com/SFML/SFML) only. The graphical and audio assets are taken online. To keep the project portable, the sources and library files of Box2D and SFML are included in this project.
 
 This is my full info and contact. Please do not hesitate to contact me for any question or clarification.
 ```
@@ -13,9 +13,9 @@ Mobile: 012-3482077
 ## Requirements
 
 OS: Window 10 (Home)
-Compiler: (MinGW Build 7.3.0 (32-bit))[https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/7.3.0/threads-posix/dwarf/i686-7.3.0-release-posix-dwarf-rt_v5-rev0.7z/download]
+Compiler: [MinGW Build 7.3.0 (32-bit)](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/7.3.0/threads-posix/dwarf/i686-7.3.0-release-posix-dwarf-rt_v5-rev0.7z/download)
 
-**The G++ compiler version must match the requirement as SFML (depends on it)[https://www.sfml-dev.org/download/sfml/2.5.1/]**
+**The G++ compiler version must match the requirement as SFML [depends on it](https://www.sfml-dev.org/download/sfml/2.5.1/)**
 
 ### Disclaimer
 
