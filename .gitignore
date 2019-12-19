@@ -1,0 +1,4 @@
+bin/main.exe
+obj/*
+!obj/_.bat
+.vscode
