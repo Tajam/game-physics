@@ -9,7 +9,13 @@ namespace tjm {
     public:
       TestObject(Room* room);
       ~TestObject();
-      void update();
+      void setup();
+      void update(int64_t deltaTime);
+      void destroy();
+      void onCollisionEnter(GameObject* other);
+      b2BodyDef* defineBody();
+      b2FixtureDef* defineFixture();
+      SpriteSheet* defineSprites();
     private:
       Audio* jumpSound;
       bool jumped;

@@ -10,6 +10,7 @@ namespace tjm {
       // functions
       Camera(sf::RenderWindow* window, sf::Vector2<int> maxSize);
       void draw(sf::Sprite sprite);
+      void draw(sf::Text text);
 
       // setter
       void setPosition(sf::Vector2<int> position);
@@ -21,8 +22,9 @@ namespace tjm {
     private:
       // fields
       sf::RenderWindow* window;
-      sf::Vector2<int>* position;
-      sf::Vector2<int>* maxSize;
+      sf::View view;
+      sf::Vector2<int> position;
+      sf::Vector2<int> maxSize;
 
   };
 }

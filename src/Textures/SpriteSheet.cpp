@@ -11,6 +11,7 @@ namespace tjm {
     end = rects.size() - 1;
     jump = 1;
     playing = false;
+    sprite.setOrigin(rects[index].width / 2, rects[index].height / 2);
   }
 
   void SpriteSheet::setInterval(int64_t miliseconds) {
@@ -39,12 +40,10 @@ namespace tjm {
 
   void SpriteSheet::flipLeft() {
     sprite.setScale(-1, 1);
-    sprite.setOrigin(rects[index].width, 0);
   }
 
   void SpriteSheet::flipRight() {
     sprite.setScale(1, 1);
-    sprite.setOrigin(0, 0);
   }
 
   sf::Sprite SpriteSheet::getSprite() {

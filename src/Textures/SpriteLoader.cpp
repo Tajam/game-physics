@@ -12,6 +12,14 @@ namespace tjm {
     this->fileName = fileName;
   }
 
+  SpriteLoader::SpriteLoader() {
+    startPoint = sf::Vector2<int>(0, 0);
+    size = sf::Vector2<int>(16, 16);
+    gap = sf::Vector2<int>(0, 0);
+    this->number = sf::Vector2i(1, 0);
+    this->fileName = "/";
+  }
+
   void SpriteLoader::setStartPoint(sf::Vector2<int> startPoint) {
     this->startPoint = startPoint;
   }
@@ -42,6 +50,7 @@ namespace tjm {
       return sf::Sprite(*SpriteLoader::textureCache[fileName]);
     } else {
       sf::Texture* texture = new sf::Texture();
+      texture->setRepeated(true);
       if (!texture->loadFromFile(fileName.c_str())) {
         // Load the default texture...
         texture->create(16, 16);

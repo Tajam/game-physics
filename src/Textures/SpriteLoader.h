@@ -11,6 +11,7 @@ namespace tjm {
     public:
       // methods
       SpriteLoader(std::string fileName, sf::Vector2<int> number);
+      SpriteLoader();
       void setStartPoint(sf::Vector2<int> startPoint);
       void setSize(sf::Vector2<int> size);
       void setGap(sf::Vector2<int> gap);

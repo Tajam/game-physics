@@ -20,18 +20,39 @@ namespace tjm {
       void setSpriteSheet(SpriteSheet* spriteSheet);
       void setBody(b2Body* body);
       void setActive(bool active);
+      void setID(unsigned long id);
+      void setTag(std::string tag);
 
-      // getter
+      // getters
       bool isActive();
       b2Body* getBody();
       SpriteSheet* getSpriteSheet();
+      unsigned long getID();
+      bool tagCheck(std::string tag);
+      bool haveBody();
+      bool haveSprite();
 
       // virtuals
       virtual void setup();
-      virtual void update();
+      virtual void update(int64_t deltaTime);
+      virtual void destroy();
+      virtual void onDraw(Camera* camera, int64_t deltaTime);
+      virtual void onCollisionEnter(GameObject* other);
+      virtual void onCollisionExit(GameObject* other);
       virtual b2BodyDef* defineBody();
       virtual b2FixtureDef* defineFixture();
       virtual SpriteSheet* defineSprites();
+
+      // methods
+      void draw(Camera* camera, int64_t deltaTime);
+
+    protected:
+      // getters
+      Room* getRoom();
+
+      // fields
+      bool _haveBody;
+      bool _haveSprite;
 
     private:
       // references
@@ -41,7 +62,10 @@ namespace tjm {
       SpriteSheet* spriteSheet;
 
       // stats
+      unsigned long id;
+      bool haveId;
       bool active;
+      std::string tag;
   };
 }
 

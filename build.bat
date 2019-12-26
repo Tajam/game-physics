@@ -3,6 +3,7 @@ echo Build all sources
 for %%p in (
   src/Audio/
   src/Camera/
+  src/Collision/
   src/GameObject/
   src/GameObject/Objects/
   src/Room/

@@ -4,7 +4,11 @@
 namespace tjm {
   GameObject::GameObject(Room* room) {
     this->room = room;
+    haveId = false;
     active = true;
+    _haveBody = true;
+    _haveSprite = true;
+    tag = "";
   }
 
   GameObject::~GameObject() {
@@ -24,46 +28,60 @@ namespace tjm {
     this->active = active;
   }
 
-  bool GameObject::isActive() {
-    return active;
+  void GameObject::setID(unsigned long id) {
+    if (!haveId) {
+      haveId = true;
+      this->id = id;
+    }
   }
 
-  b2Body* GameObject::getBody() {
-    return body;
+  void GameObject::setTag(std::string tag) {
+    this->tag = tag;
+  }
+  
+  bool GameObject::isActive() { return active; }
+  b2Body* GameObject::getBody() { return body; }
+  SpriteSheet* GameObject::getSpriteSheet() { return spriteSheet; }
+  unsigned long GameObject::getID() { return id; }
+  bool GameObject::tagCheck(std::string tag) { return this->tag == tag; }
+  bool GameObject::haveBody() { return _haveBody; }
+  bool GameObject::haveSprite() { return _haveSprite; }
+
+  void GameObject::setup() { }
+  void GameObject::update(int64_t deltaTime) { }
+  void GameObject::destroy() { }
+
+  void GameObject::draw(Camera* camera, int64_t deltaTime) {
+    if (_haveSprite) {
+      b2Vec2 position = body->GetPosition();
+      sf::Sprite sprite = spriteSheet->getSprite();
+      sprite.setPosition(position.x, position.y);
+      sprite.setRotation(body->GetAngle());
+      camera->draw(sprite);
+      spriteSheet->step(deltaTime);
+    }
+    onDraw(camera, deltaTime);
   }
 
-  SpriteSheet* GameObject::getSpriteSheet() {
-    return spriteSheet;
-  }
-
-  void GameObject::setup() { 
-    spriteSheet->setFrame(1);
-  }
-
-  void GameObject::update() { }
+  void GameObject::onDraw(Camera* camera, int64_t deltaTime) { }
+  void GameObject::onCollisionEnter(GameObject* other) { }
+  void GameObject::onCollisionExit(GameObject* other) { }
 
   b2BodyDef* GameObject::defineBody() {
-    b2BodyDef* bodyDef = new b2BodyDef();
-    bodyDef->position = b2Vec2(0.f, 0.f);
-    bodyDef->type = b2_dynamicBody;
-    return bodyDef;
+    return new b2BodyDef();
   }
 
   b2FixtureDef* GameObject::defineFixture() {
-    b2PolygonShape* box = new b2PolygonShape();
-    box->SetAsBox(18, 16);
-    b2FixtureDef* fixtureDef = new b2FixtureDef();
-    fixtureDef->shape = box;
-    fixtureDef->density = 0.00347f;
-    return fixtureDef;
+    return new b2FixtureDef();
   }
 
   SpriteSheet* GameObject::defineSprites() {
-    SpriteLoader loader("../assets/textures/test.png", sf::Vector2<int>(2, 1));
-    loader.setGap(sf::Vector2<int>(0, 0));
-    loader.setSize(sf::Vector2<int>(18, 16));
-    loader.setStartPoint(sf::Vector2<int>(0, 0));
+    SpriteLoader loader;
     SpriteSheet* spriteSheet = new SpriteSheet(loader);
     return spriteSheet;
+  }
+
+  Room* GameObject::getRoom() {
+    return room;
   }
 }
