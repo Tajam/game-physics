@@ -2,6 +2,8 @@
 echo    Building all game objects
 for %%p in (
   LabelObject/
+  LevelSelectController/
+  StartRoomController/
   TestObject/
   TestObject2/
 ) do (

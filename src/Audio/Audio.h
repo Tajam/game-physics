@@ -9,20 +9,15 @@ namespace tjm {
   class Audio {
     public:
       // methods
-      Audio(std::string fileName, bool isMusic);
-      Audio(std::string);
-      ~Audio();
-      sf::Sound* getSound();
-      sf::Music* getMusic();
+      static void playSound(std::string fileName);
+      static void playMusic(std::string fileName);
 
     private:
-      // cache
-      static std::map<std::string, sf::SoundBuffer*> soundCache;
-
       // fields
-      bool isMusic;
-      sf::Sound* sound;
-      sf::Music* music;
+      static std::map<std::string, sf::SoundBuffer*> soundCache;
+      static sf::Music music;
+      static sf::Sound sound;
+      static std::string playingMusic;
 
   };
 }

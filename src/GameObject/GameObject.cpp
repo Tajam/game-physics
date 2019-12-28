@@ -12,8 +12,10 @@ namespace tjm {
   }
 
   GameObject::~GameObject() {
-    delete spriteSheet;
-    spriteSheet = NULL;
+    if (_haveSprite) {
+      delete spriteSheet;
+      spriteSheet = nullptr;
+    }
   }
 
   void GameObject::setSpriteSheet(SpriteSheet* spriteSheet) {

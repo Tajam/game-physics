@@ -1,16 +1,11 @@
 #include "TestObject.h"
 #include "../../../SFML/Window/Keyboard.hpp"
+#include "../../../Audio/Audio.h"
 #include <iostream>
 
 namespace tjm {
-  TestObject::TestObject(Room* room) : GameObject(room) { 
-    jumpSound = new Audio("../assets/sounds/test.wav");
+  TestObject::TestObject(Room* room) : GameObject(room) {
     jumped = false;
-  }
-
-  TestObject::~TestObject() {
-    delete jumpSound;
-    jumpSound = NULL;
   }
 
   void TestObject::setup() {
@@ -24,7 +19,7 @@ namespace tjm {
       getBody()->ApplyForceToCenter(b2Vec2(0, -5000.f), true);
       getSpriteSheet()->setFrame(0);
       if (!jumped) {
-        jumpSound->getSound()->play();
+        Audio::playSound("../assets/sounds/test.wav");
       }
       jumped = true;
     } else{
@@ -52,7 +47,7 @@ namespace tjm {
   void TestObject::onCollisionEnter(GameObject* other) {
     if (other->tagCheck("coin")) {
       std::cout << "Get coin!" << std::endl;
-      jumpSound->getSound()->play();
+      Audio::playSound("../assets/sounds/test.wav");
       getRoom()->Destroy(other->getID());
     }
   }

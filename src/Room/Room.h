@@ -5,14 +5,16 @@
 #include <vector>
 #include "../Camera/Camera.h"
 #include "../GameObject/GameObject.h"
+#include "../Game.h"
 
 namespace tjm {
+  class Game;
   class GameObject;
 
   class Room {
     public:
       // structs
-      Room(b2World* world, sf::RenderWindow* window, sf::Vector2<int> maxSize);
+      Room(Game* game, sf::Vector2i maxSize);
       ~Room();
 
       // setters
@@ -20,6 +22,7 @@ namespace tjm {
 
       // getters
       sf::Vector2i getFollow();
+      Game* getGame();
 
       // methods
       void setup();
@@ -31,6 +34,7 @@ namespace tjm {
 
     private:
       // fields
+      Game* game;
       b2World* world;
       Camera* camera;
       unsigned long followObject;
@@ -40,7 +44,6 @@ namespace tjm {
       std::vector<unsigned long> removingObjects;
       std::map<unsigned long, GameObject*> objects;
       sf::Sprite background;
-      sf::Vector2i roomSize;
 
       // methods
       void cameraFollow();

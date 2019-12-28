@@ -1,19 +1,17 @@
 #include "Room.h"
-#include <iostream>
 
 namespace tjm {
 
-  Room::Room(b2World* world, sf::RenderWindow* window, sf::Vector2<int> roomSize) {
-    this->world = world;
-    Camera camera(window, roomSize);
-    this->roomSize = roomSize;
-    this->camera = new Camera(window, roomSize);
+  Room::Room(Game* game, sf::Vector2i roomSize) {
+    this->game = game;
+    this->world = game->getWorld();
+    this->camera = new Camera(game->getWindow(), roomSize);
     this->isFollow = false;
   }
 
   Room::~Room() {
     delete camera;
-    camera = NULL;
+    camera = nullptr;
   }
 
   void Room::setFollow(unsigned long id) {
@@ -21,14 +19,23 @@ namespace tjm {
     isFollow = true;
   }
 
+  sf::Vector2i Room::getFollow() {
+    GameObject* obj = objects[followObject];
+    return sf::Vector2i();
+  }
+
+  Game* Room::getGame() {
+    return game;
+  }
+
   void Room::cameraFollow() {
     if (!isFollow) return;
     if (objects.find(followObject) != objects.end()) {
       GameObject* obj = objects[followObject];
       b2Body* body = obj->getBody();
-      sf::Sprite sprite = obj->getSpriteSheet()->getSprite();
-      int posX = body->GetPosition().x + sprite.getTextureRect().width / 2;
-      int posY = body->GetPosition().y + sprite.getTextureRect().height / 2;
+      // sf::Sprite sprite = obj->getSpriteSheet()->getSprite();
+      int posX = body->GetPosition().x; // + sprite.getTextureRect().width / 2;
+      int posY = body->GetPosition().y; // + sprite.getTextureRect().height / 2;
       camera->setPosition(sf::Vector2i(posX, posY));
     } else {
       isFollow = false;
@@ -51,6 +58,9 @@ namespace tjm {
     addingObjects.clear();
 
     // Draw background
+    int posX = camera->getPosition().x;
+    int posY = camera->getPosition().y;
+    background.setPosition(posX, posY);
     camera->draw(background);
 
     // Objects update loop
@@ -88,7 +98,9 @@ namespace tjm {
   void Room::setBackground(std::string fileName) {
     SpriteLoader loader(fileName, sf::Vector2i(1, 0));
     background = loader.getSprite();
-    background.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), roomSize));
+    int sizeX = camera->getSize().x;
+    int sizeY = camera->getSize().y;
+    background.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(sizeX, sizeY)));
   }
 
   void Room::Instantiate(GameObject* gameObject) {
@@ -100,7 +112,7 @@ namespace tjm {
     }
     if (gameObject->haveSprite())
       gameObject->setSpriteSheet(gameObject->defineSprites());
-    gameObject->setID(++objectCount);
+    gameObject->setID(objectCount++);
     gameObject->setup();
     addingObjects.push_back(gameObject);
   }

@@ -4,6 +4,7 @@ namespace tjm {
   Game::Game() {
     isSwitching = false;
     isStopping = false;
+    isRunning = false;
 
     // physic world
     b2Vec2 gravity(0.0f, 100.f);
@@ -11,31 +12,41 @@ namespace tjm {
     world->SetContactListener(new Collision());
 
     // render window
-    window = new sf::RenderWindow(sf::VideoMode(1280, 720), "My framework works!");
+    window = new sf::RenderWindow(sf::VideoMode(1280, 720), "5 Seconds Diver");
     window->setFramerateLimit(60);
 
     // clock
     clock = new sf::Clock();
 
     // initial room
-    currentRoom = new StartRoom(world, window);
+    currentRoom = new StartRoom(this);
     currentRoom->setup();
   }
 
   Game::~Game() {
     delete world;
-    world = NULL;
+    world = nullptr;
     delete window;
-    window = NULL;
+    window = nullptr;
     delete clock;
-    clock = NULL;
+    clock = nullptr;
     delete currentRoom;
-    currentRoom = NULL;
+    currentRoom = nullptr;
     delete nextRoom;
-    nextRoom = NULL;
+    nextRoom = nullptr;
+  }
+
+  b2World* Game::getWorld() {
+    return world;
+  }
+
+  sf::RenderWindow* Game::getWindow() {
+    return window;
   }
 
   void Game::run() {
+    if (isRunning) return;
+    isRunning = true;
     while (window->isOpen()) {
       sf::Event event;
       while (window->pollEvent(event)) {
@@ -72,7 +83,7 @@ namespace tjm {
       delete currentRoom;
       currentRoom = nextRoom;
       currentRoom->setup();
-      nextRoom = NULL;
+      nextRoom = nullptr;
     }
   }
 }

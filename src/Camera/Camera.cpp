@@ -32,6 +32,10 @@ namespace tjm {
     window->draw(text);
   }
 
+  void Camera::draw(sf::RectangleShape rect) {
+    window->draw(rect);
+  }
+
   void Camera::setPosition(sf::Vector2<int> position) {
     int wx = window->getSize().x;
     int wy = window->getSize().y;
@@ -46,11 +50,11 @@ namespace tjm {
     this->window->setView(this->view);
   }
 
-  int Camera::getX() {
-    return this->position.x;
+  sf::Vector2i Camera::getPosition() {
+    return position;
   }
 
-  int Camera::getY() {
-    return this->position.y;
+  sf::Vector2u Camera::getSize() {
+    return window->getSize();
   }
 }

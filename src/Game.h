@@ -6,11 +6,17 @@
 #include "SFML/System/Clock.hpp"
 
 namespace tjm {
+  class Room;
+  
   class Game {
     public:
       // struct
       Game();
       ~Game();
+
+      // getters
+      b2World* getWorld();
+      sf::RenderWindow* getWindow();
       
       // method
       void run();
@@ -26,6 +32,7 @@ namespace tjm {
       // fields
       Room* currentRoom;
       Room* nextRoom;
+      bool isRunning;
       bool isSwitching;
       bool isStopping;
 

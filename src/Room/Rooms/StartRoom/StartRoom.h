@@ -8,7 +8,7 @@ namespace tjm {
 
   class StartRoom : public Room {
     public:
-      StartRoom(b2World* world, sf::RenderWindow* window);
+      StartRoom(Game* game);
     private:
       // overrides
       void open();
