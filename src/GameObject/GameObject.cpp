@@ -2,6 +2,9 @@
 #include "GameObject.h"
 
 namespace tjm {
+  const float GameObject::B2ToSFML = 64.f;
+  const float GameObject::SFMLToB2 = 1.f / 64.f;
+
   GameObject::GameObject(Room* room) {
     this->room = room;
     haveId = false;
@@ -57,7 +60,7 @@ namespace tjm {
     if (_haveSprite) {
       b2Vec2 position = body->GetPosition();
       sf::Sprite sprite = spriteSheet->getSprite();
-      sprite.setPosition(position.x, position.y);
+      sprite.setPosition(position.x * B2ToSFML, position.y * B2ToSFML);
       sprite.setRotation(body->GetAngle());
       camera->draw(sprite);
       spriteSheet->step(deltaTime);

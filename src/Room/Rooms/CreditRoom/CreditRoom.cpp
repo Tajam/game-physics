@@ -14,9 +14,9 @@ namespace tjm {
   }
 
   void CreditRoom::open() {
-    setBackground("../assets/textures/main-bg.jpg");
-    Audio::playMusic("../assets/sounds/main-bgm.ogg");
-    std::ifstream file("../assets/data/credit.5sd");
+    setBackground("main-bg.jpg");
+    Audio::playMusic("main-bgm.ogg");
+    std::ifstream file("../assets/data/credit");
     std::string line;
     int height = 192;
     while(std::getline(file, line)) {
@@ -32,7 +32,7 @@ namespace tjm {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
       if (!pressed) {
         getGame()->switchRoom(new StartRoom(getGame()));
-        Audio::playSound("../assets/sounds/bubble.wav");
+        Audio::playSound("bubble.wav");
         pressed = true;
       }
     } else {

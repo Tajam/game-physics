@@ -1,7 +1,6 @@
 #include "LevelSelectController.h"
 #include "../../../Audio/Audio.h"
 #include <cmath>
-#include <iostream>
 
 #define PI 3.14159265
 
@@ -47,7 +46,7 @@ namespace tjm {
         if (selectedOption < 0) {
           selectedOption = maxOption - 1;
         }
-        Audio::playSound("../assets/sounds/coin.wav");
+        Audio::playSound("coin.wav");
         pressed = true;
       }
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
@@ -59,35 +58,35 @@ namespace tjm {
         if (selectedOption >= maxOption) {
           selectedOption = 0;
         }
-        Audio::playSound("../assets/sounds/coin.wav");
+        Audio::playSound("coin.wav");
         pressed = true;
       }
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
       if (!pressed && selectedOption == 0) {
         selectedLevel--;
         if (selectedLevel < 0) {
-          selectedLevel = 0;
+          selectedLevel = maxLevel - 1;
         }
         optionObjects[selectedOption]->setText(std::to_string(selectedLevel + 1));
         optionShadows[selectedOption]->setText(std::to_string(selectedLevel + 1));
-        Audio::playSound("../assets/sounds/coin.wav");
+        Audio::playSound("coin.wav");
         pressed = true;
       }
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
       if (!pressed && selectedOption == 0) {
         selectedLevel++;
         if (selectedLevel >= maxLevel) {
-          selectedLevel = maxLevel - 1;
+          selectedLevel = 0;
         }
         optionObjects[selectedOption]->setText(std::to_string(selectedLevel + 1));
         optionShadows[selectedOption]->setText(std::to_string(selectedLevel + 1));
-        Audio::playSound("../assets/sounds/coin.wav");
+        Audio::playSound("coin.wav");
         pressed = true;
       }
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
       if (!pressed) {
         runOption(selectedOption);
-        Audio::playSound("../assets/sounds/bubble.wav");
+        Audio::playSound("bubble.wav");
         pressed = true;
       }
     } else {
@@ -121,7 +120,7 @@ namespace tjm {
   void LevelSelectController::runOption(int option) {
     switch(option) {
       case 0:
-        std::cout << "Play level: " << selectedLevel + 1 << std::endl;
+        getRoom()->getGame()->switchRoom(new GameRoom(getRoom()->getGame(), selectedLevel));
       break;
       case 1:
         getRoom()->getGame()->switchRoom(new StartRoom(getRoom()->getGame()));

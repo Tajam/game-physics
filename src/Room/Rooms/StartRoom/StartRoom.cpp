@@ -12,16 +12,16 @@ namespace tjm {
   }
 
   void StartRoom::open() {
-    Audio::playMusic("../assets/sounds/main-bgm.ogg");
-    setBackground("../assets/textures/main-bg.jpg");
+    Audio::playMusic("main-bgm.ogg");
+    setBackground("main-bg.jpg");
     // the "5" at the top
     for (int i = 0; i < 3; i++) {
       fiveLabels.push_back(
-        makeLabel("5", 180, sf::Vector2i(638, 118), sf::Color(50, 50, 50, 25 + i * 75))
+        makeLabel("10", 180, sf::Vector2i(638, 118), sf::Color(50, 50, 50, 25 + i * 75))
       );
     }
     fiveLabels.push_back(
-      makeLabel("5", 180, sf::Vector2i(642, 122), sf::Color(0, 255, 160, 255))
+      makeLabel("10", 180, sf::Vector2i(642, 122), sf::Color(0, 255, 160, 255))
     );
     // title and its shadow
     makeLabel("Seconds Diver", 120, sf::Vector2i(638, 238), sf::Color(50, 50, 50, 255));

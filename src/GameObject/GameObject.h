@@ -12,6 +12,10 @@ namespace tjm {
 
   class GameObject {
     public:
+      // const
+      const static float B2ToSFML;
+      const static float SFMLToB2;
+
       // structs
       GameObject(Room* room);
       ~GameObject();

@@ -41,7 +41,7 @@ namespace tjm {
         if (selectedOption < 0) {
           selectedOption = maxOption - 1;
         }
-        Audio::playSound("../assets/sounds/coin.wav");
+        Audio::playSound("coin.wav");
         pressed = true;
       }
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
@@ -53,13 +53,13 @@ namespace tjm {
         if (selectedOption >= maxOption) {
           selectedOption = 0;
         }
-        Audio::playSound("../assets/sounds/coin.wav");
+        Audio::playSound("coin.wav");
         pressed = true;
       }
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
       if (!pressed) {
         runOption(selectedOption);
-        Audio::playSound("../assets/sounds/bubble.wav");
+        Audio::playSound("bubble.wav");
         pressed = true;
       }
     } else {
@@ -93,7 +93,7 @@ namespace tjm {
   void StartRoomController::runOption(int option) {
     switch(option) {
       case 0:
-
+        getRoom()->getGame()->switchRoom(new GameRoom(getRoom()->getGame(), 0));
       break;
       case 1:
         getRoom()->getGame()->switchRoom(new LevelRoom(getRoom()->getGame()));

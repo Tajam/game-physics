@@ -15,7 +15,8 @@ namespace tjm {
       // setters
       void setInterval(int64_t miliseconds);
       void setFrame(int index);
-      void setLoop(int start, int end, int jump);
+      void setLoop(bool loop);
+      void setTimeline(int start, int end, int jump);
       void flipLeft();
       void flipRight();
 
@@ -45,6 +46,7 @@ namespace tjm {
 
       // stats
       bool playing;
+      bool loop;
   };
 }
 

@@ -1,21 +1,26 @@
-#ifndef TESTOBJECT_H
-#define TESTOBJECT_H
+#ifndef PLAYEROBJECT_H
+#define PLAYEROBJECT_H
 
 #include "../../GameObject.h"
 
 namespace tjm {
-  class TestObject: public GameObject {
+  class PlayerObject : public GameObject {
     public:
-      TestObject(Room* room);
+      // structs
+      PlayerObject(Room* room);
+
+      // overrides
       void setup();
       void update(int64_t deltaTime);
-      void destroy();
       void onCollisionEnter(GameObject* other);
+      void onCollisionExit(GameObject* other);
       b2BodyDef* defineBody();
       b2FixtureDef* defineFixture();
       SpriteSheet* defineSprites();
     private:
+      // fields
       bool jumped;
+
   };
 }
 

@@ -22,7 +22,11 @@ namespace tjm {
     this->index = index;
   }
 
-  void SpriteSheet::setLoop(int start, int end, int jump) {
+  void SpriteSheet::setLoop(bool loop) {
+    this->loop = loop;
+  }
+
+  void SpriteSheet::setTimeline(int start, int end, int jump) {
     if (start < 0) {
       this->start = 0;
     } else {
@@ -74,7 +78,11 @@ namespace tjm {
       timing -= interval;
       index += jump;
       if (index > end) {
-        index = start;
+        if (loop) {
+          index = start;
+        } else {
+          stop();
+        }
       }
     }
   }

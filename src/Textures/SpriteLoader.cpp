@@ -9,7 +9,7 @@ namespace tjm {
     size = sf::Vector2<int>(16, 16);
     gap = sf::Vector2<int>(0, 0);
     this->number = number;
-    this->fileName = fileName;
+    this->fileName = "../assets/textures/" + fileName;
   }
 
   SpriteLoader::SpriteLoader() {
@@ -36,8 +36,8 @@ namespace tjm {
     std::vector<sf::IntRect> rects;
     for (int y = 0; y < number.y; y++) {
       for (int x = 0; x < number.x; x++) {
-        int sx = startPoint.x + x * size.x + gap.x;
-        int sy = startPoint.y + y * size.y + gap.y;
+        int sx = startPoint.x + x * size.x + x * gap.x;
+        int sy = startPoint.y + y * size.y + y * gap.y;
         sf::IntRect rect(sx, sy, size.x ,size.y);
         rects.push_back(rect);
       }
@@ -49,15 +49,16 @@ namespace tjm {
     if (SpriteLoader::textureCache.find(fileName) != SpriteLoader::textureCache.end()) {
       return sf::Sprite(*SpriteLoader::textureCache[fileName]);
     } else {
-      sf::Texture* texture = new sf::Texture();
-      texture->setRepeated(true);
-      if (!texture->loadFromFile(fileName.c_str())) {
-        // Load the default texture...
-        texture->create(16, 16);
-      } else {
-        SpriteLoader::textureCache.insert(std::pair<std::string, sf::Texture*>(fileName, texture));
-        return sf::Sprite(*texture);
+      sf::Image image;
+      if (!image.loadFromFile(fileName.c_str())) {
+        image.create(16, 16);
       }
+      image.createMaskFromColor(sf::Color(195, 195, 195));
+      sf::Texture* texture = new sf::Texture();
+      texture->loadFromImage(image);
+      texture->setRepeated(true);
+      SpriteLoader::textureCache.insert(std::pair<std::string, sf::Texture*>(fileName, texture));
+      return sf::Sprite(*texture);
     }
   }
 }

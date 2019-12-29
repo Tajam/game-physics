@@ -53,9 +53,9 @@ This is a simplified version. See documentation for detailed version.
 
 ### Game rules
 
-Each level will start within a 2 seconds margin time. Once the level starts, the players have only 5 seconds of time to swim to the exit of the level. If the players failed to do so, the whole level needs to restart. Otherwise, players will move on to the next level.
+Each level will start within a 2 seconds margin time. Once the level starts, the players have only 10 seconds of time to swim to the exit of the level. If the players failed to do so, the whole level needs to restart. Otherwise, players will move on to the next level.
 
-Consuming an air bubble will reset the 5 seconds timing which allow the players to travel longer distances in the level. Moreover, collecting a coin will grant players more scores upon completion of the level.
+Consuming an air bubble will reset the 10 seconds timing which allow the players to travel longer distances in the level. Moreover, collecting a coin will grant players more scores upon completion of the level.
 
 All the traps and enemies in game will kill players immediately upon contact. So beware.
 

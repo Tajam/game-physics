@@ -7,7 +7,7 @@ namespace tjm {
     isRunning = false;
 
     // physic world
-    b2Vec2 gravity(0.0f, 100.f);
+    b2Vec2 gravity(0.0f, .5f);
     world = new b2World(gravity);
     world->SetContactListener(new Collision());
 

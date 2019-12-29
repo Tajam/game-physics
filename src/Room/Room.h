@@ -13,12 +13,17 @@ namespace tjm {
 
   class Room {
     public:
+      // const
+      const static float B2ToSFML;
+      const static float SFMLToB2;
+
       // structs
       Room(Game* game, sf::Vector2i maxSize);
       ~Room();
 
       // setters
       void setFollow(unsigned long id);
+      void resetFollow();
 
       // getters
       sf::Vector2i getFollow();

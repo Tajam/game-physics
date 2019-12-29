@@ -9,7 +9,7 @@ namespace tjm {
 
     float wx = window->getSize().x;
     float wy = window->getSize().y;
-    this->view = sf::View(sf::FloatRect(0, 0, wx, wy));
+    this->view = sf::View(sf::FloatRect(0, 0, wx , wy));
     this->window->setView(this->view);
   }
 

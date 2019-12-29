@@ -1,6 +1,10 @@
 #include "Room.h"
+#include <iostream>
 
 namespace tjm {
+
+  const float Room::B2ToSFML = 64.f;
+  const float Room::SFMLToB2 = 1.f / 64.f;
 
   Room::Room(Game* game, sf::Vector2i roomSize) {
     this->game = game;
@@ -19,6 +23,11 @@ namespace tjm {
     isFollow = true;
   }
 
+  void Room::resetFollow() {
+    camera->setPosition(sf::Vector2i(0, 0));
+    isFollow = false;
+  }
+
   sf::Vector2i Room::getFollow() {
     GameObject* obj = objects[followObject];
     return sf::Vector2i();
@@ -34,8 +43,8 @@ namespace tjm {
       GameObject* obj = objects[followObject];
       b2Body* body = obj->getBody();
       // sf::Sprite sprite = obj->getSpriteSheet()->getSprite();
-      int posX = body->GetPosition().x; // + sprite.getTextureRect().width / 2;
-      int posY = body->GetPosition().y; // + sprite.getTextureRect().height / 2;
+      int posX = body->GetPosition().x * B2ToSFML; // + sprite.getTextureRect().width / 2;
+      int posY = body->GetPosition().y * B2ToSFML; // + sprite.getTextureRect().height / 2;
       camera->setPosition(sf::Vector2i(posX, posY));
     } else {
       isFollow = false;
@@ -66,8 +75,10 @@ namespace tjm {
     // Objects update loop
     for (auto& obj : objects) {
       GameObject* o = obj.second;
-      o->update(deltaTime);
-      o->draw(camera, deltaTime);
+      if (o->isActive()) {
+        o->update(deltaTime);
+        o->draw(camera, deltaTime);
+      }
     }
 
     // Move camera
