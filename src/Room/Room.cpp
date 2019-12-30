@@ -1,5 +1,4 @@
 #include "Room.h"
-#include <iostream>
 
 namespace tjm {
 
@@ -11,6 +10,7 @@ namespace tjm {
     this->world = game->getWorld();
     this->camera = new Camera(game->getWindow(), roomSize);
     this->isFollow = false;
+    this->haveBackground = false;
   }
 
   Room::~Room() {
@@ -67,10 +67,12 @@ namespace tjm {
     addingObjects.clear();
 
     // Draw background
-    int posX = camera->getPosition().x;
-    int posY = camera->getPosition().y;
-    background.setPosition(posX, posY);
-    camera->draw(background);
+    if (haveBackground) {
+      int posX = camera->getPosition().x;
+      int posY = camera->getPosition().y;
+      background.setPosition(posX, posY);
+      camera->draw(background);
+    }
 
     // Objects update loop
     for (auto& obj : objects) {
@@ -107,6 +109,7 @@ namespace tjm {
   }
 
   void Room::setBackground(std::string fileName) {
+    haveBackground = true;
     SpriteLoader loader(fileName, sf::Vector2i(1, 0));
     background = loader.getSprite();
     int sizeX = camera->getSize().x;

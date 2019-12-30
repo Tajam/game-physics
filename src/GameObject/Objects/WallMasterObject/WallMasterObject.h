@@ -14,7 +14,7 @@ namespace tjm {
       b2FixtureDef* defineFixture();
 
       // methods
-      void buildWall(std::vector<b2Vec2> points);
+      void buildWall(b2Vec2 position, b2Vec2 size);
   };
 }
 

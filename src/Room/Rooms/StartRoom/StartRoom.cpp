@@ -14,19 +14,18 @@ namespace tjm {
   void StartRoom::open() {
     Audio::playMusic("main-bgm.ogg");
     setBackground("main-bg.jpg");
+    LabelObject* label;
     // the "5" at the top
     for (int i = 0; i < 3; i++) {
-      fiveLabels.push_back(
-        makeLabel("10", 180, sf::Vector2i(638, 118), sf::Color(50, 50, 50, 25 + i * 75))
-      );
+      int alpha = 25 + i * 75;
+      label = (new LabelObject(this))->makeDefault("10", 180, sf::Vector2f(642, 122), sf::Color(50, 50, 50, alpha));
+      fiveLabels.push_back(label);
     }
-    fiveLabels.push_back(
-      makeLabel("10", 180, sf::Vector2i(642, 122), sf::Color(0, 255, 160, 255))
-    );
-    // title and its shadow
-    makeLabel("Seconds Diver", 120, sf::Vector2i(638, 238), sf::Color(50, 50, 50, 255));
-    makeLabel("Seconds Diver", 120, sf::Vector2i(642, 242), sf::Color(0, 140, 255, 255));
-
+    label = (new LabelObject(this))->makeDefault("10", 180, sf::Vector2f(638, 118), sf::Color(40, 255, 140, 255));
+    fiveLabels.push_back(label);
+    // title
+    label = (new LabelObject(this))->makeDefault("Seconds Diver", 120, sf::Vector2f(638, 238), sf::Color(40, 140, 255, 255));
+    label->makeShadow(4);
     Instantiate(new StartRoomController(this));
   }
 
@@ -42,17 +41,5 @@ namespace tjm {
       fiveLabels[i]->setSize(180 + 80 * abs(value));
       fiveLabels[i]->setOrientation((5.f + i * 10.f) * value);
     }
-  }
-
-  LabelObject* StartRoom::makeLabel(std::string text, unsigned int size, sf::Vector2i position, sf::Color color) {
-    LabelObject* label = new LabelObject(this);
-    label->setFont("../assets/fonts/Jupiter.ttf");
-    label->setText(text);
-    label->setColor(color);
-    label->setSize(size);
-    label->setOrientation(0, sf::Vector2f(position.x, position.y));
-    label->setStyle(sf::Text::Bold);
-    Instantiate(label);
-    return label;
   }
 }

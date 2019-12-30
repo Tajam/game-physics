@@ -20,12 +20,12 @@ namespace tjm {
     std::string line;
     int height = 192;
     while(std::getline(file, line)) {
-      makeLabel(line, 48, sf::Vector2f(641, height + 1), sf::Color(50, 50, 50));
-      makeLabel(line, 48, sf::Vector2f(639, height - 1), sf::Color(75, 160, 205));
+      LabelObject* label = (new LabelObject(this))->makeDefault(line, 48, sf::Vector2f(639, height - 1), sf::Color(40, 140, 255));
+      label->makeShadow(2);
       height += 48;
     }
-    backLabel = makeLabel("Back", 80, sf::Vector2f(638, 638), sf::Color(40, 180, 180));
-    backShadow = makeLabel("Back", 80, sf::Vector2f(642, 642), sf::Color(50, 50, 50));
+    backLabel = (new LabelObject(this))->makeDefault("Back", 80, sf::Vector2f(642, 642), sf::Color(40, 180, 180));
+    backLabel->makeShadow(4);
   }
 
   void CreditRoom::step(int64_t deltaTime) {
@@ -47,18 +47,6 @@ namespace tjm {
     float degree = 360.f * rate;
     float value = sin( degree * PI / 180);
     backLabel->setSize(90 + 20 * value);
-    backShadow->setSize(90 + 20 * value);
     backLabel->setColor(sf::Color(180, 40.f + value * 100.f, 180.f + value * 40.f));
-  }
-
-  LabelObject*  CreditRoom::makeLabel(std::string text, unsigned int size, sf::Vector2f position, sf::Color color) {
-    LabelObject* label = new LabelObject(this);
-    label->setFont("../assets/fonts/Jupiter.ttf");
-    label->setText(text);
-    label->setColor(color);
-    label->setSize(size);
-    label->setOrientation(0, position);
-    Instantiate(label);
-    return label;
   }
 }

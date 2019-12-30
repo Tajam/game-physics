@@ -19,7 +19,7 @@ namespace tjm {
 
       // structs
       Room(Game* game, sf::Vector2i maxSize);
-      ~Room();
+      virtual ~Room();
 
       // setters
       void setFollow(unsigned long id);
@@ -45,6 +45,7 @@ namespace tjm {
       unsigned long followObject;
       unsigned long objectCount;
       bool isFollow;
+      bool haveBackground;
       std::vector<GameObject*> addingObjects;
       std::vector<unsigned long> removingObjects;
       std::map<unsigned long, GameObject*> objects;

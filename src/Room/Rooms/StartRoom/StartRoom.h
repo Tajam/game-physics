@@ -14,9 +14,6 @@ namespace tjm {
       void open();
       void step(int64_t deltaTime);
 
-      // methods
-      LabelObject* makeLabel(std::string text, unsigned int size, sf::Vector2i position, sf::Color color);
-
       // fields
       int64_t timing;
       int64_t maxTiming;

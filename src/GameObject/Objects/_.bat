@@ -1,12 +1,17 @@
 @echo off
 echo    Building all game objects
 for %%p in (
-  PlayerObject/
+  CoinObject/
+  EndingPointObject/
+  GameClearObject/
+  GameFailObject/
   LabelObject/
   LevelSelectController/
+  PlayerObject/
   StartingPointObject/
   StartRoomController/
   TileMasterObject/
+  TrapObject/
   WallMasterObject/
 ) do (
   cd %%p

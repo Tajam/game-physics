@@ -8,17 +8,31 @@ namespace tjm {
   : Room(game, sf::Vector2i(3200, 1600)) {
     pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Enter);
     started = false;
+    spawned = false;
     index = level;
+    maxLevel = 1;
     timing = 0;
     maxTiming = 2000000;
+
+    coins = 0;
+    score = 0;
+    totalTiming = 0;
+    gameTiming = 0;
+    gameMaxTiming = 10000000;
+    expectedTiming = 10000000;
+    timeLimit = false;
   }
 
   void GameRoom::open() {
+    if (index >= maxLevel) {
+      getGame()->switchRoom(new CreditRoom(getGame()));
+      return;
+    }
     Audio::playMusic("level-bgm.ogg");
     setBackground("level-bg.jpg");
     loadWalls();
-    loadObjects();
     loadTiles();
+    loadObjects();
   }
 
   void GameRoom::step(int64_t deltaTime) {
@@ -35,15 +49,22 @@ namespace tjm {
     }
 
     // start countdown
-    if (timing >= maxTiming && !started) {
+    if (timing >= maxTiming && !spawned) {
+      spawned = true;
       started = true;
       PlayerObject* player = new PlayerObject(this);
       Instantiate(player);
       player->getBody()->SetTransform(startPosition, 0);
       setFollow(player->getID());
       Audio::playSound("start.wav");
+      playerID = player->getID();
     } else {
       timing += deltaTime;
+    }
+
+    // time limitation
+    if (started) {
+
     }
   }
 
@@ -55,17 +76,15 @@ namespace tjm {
     WallMasterObject* object = new WallMasterObject(this);
     Instantiate(object);
     std::ifstream file("../assets/data/" + std::to_string(index) + "/wall");
-    int sx, sy;
-    while (file >> sx >> sy) {
-      std::vector<b2Vec2> vertices;
-      int px, py;
-      for (int i = 0; i < 4; i++) {
-        file >> px >> py;
-        float posX = (float)(sx + px) * SFMLToB2;
-        float posY = (float)(sy + py) * SFMLToB2;
-        vertices.push_back(b2Vec2(posX, posY));
-      }
-      object->buildWall(vertices);
+    int px, py, sx, sy;
+    while (file >> px >> py >> sx >> sy) {
+      float _px = (float)px * SFMLToB2;
+      float _py = (float)py * SFMLToB2;
+      float _sx = (float)sx * SFMLToB2;
+      float _sy = (float)sy * SFMLToB2;
+      b2Vec2 position(_px, _py);
+      b2Vec2 size(_sx, _sy);
+      object->buildWall(position, size);
     }
   }
 
@@ -83,8 +102,12 @@ namespace tjm {
           case 11:
           break;
           // trap
-          case 12:
-          break;
+          case 12: {
+            TrapObject* object = new TrapObject(this);
+            Instantiate(object);
+            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f) * SFMLToB2), 0);
+            break;
+          }
           // enemy
           case 14:
           break;
@@ -98,14 +121,22 @@ namespace tjm {
             break;
           }
           // end point
-          case 19:
-          break;
+          case 19: {
+            EndingPointObject* object = new EndingPointObject(this);
+            Instantiate(object);
+            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f) * SFMLToB2), 0);
+            break;
+          }
           // switch
           case 21:
           break;
           // coin
-          case 23:
-          break;
+          case 23: {
+            CoinObject* object = new CoinObject(this);
+            Instantiate(object);
+            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f) * SFMLToB2), 0);
+            break;
+          }
           // blue door 
           case 34:
           break;
@@ -129,5 +160,34 @@ namespace tjm {
       }
     }
     Instantiate(tileMaster);
+  }
+
+  void GameRoom::gainCoin() {
+    coins++;
+  }
+
+  void GameRoom::resetGameTiming() {
+    gameTiming = gameMaxTiming;
+  }
+
+  void GameRoom::gameClear() {
+    Destroy(playerID);
+    int maxScore = 1000000 + coins * 250000;
+    int score = (float)maxScore * ((float)(expectedTiming - totalTiming) / expectedTiming);
+    Instantiate(new GameClearObject(this, score));
+    Audio::playSound("win.wav");
+  }
+
+  void GameRoom::gameFail() {
+    if (started) {
+      Destroy(playerID);
+      Instantiate(new GameFailObject(this));
+      Audio::playSound("lose.wav");
+      started = false;
+    }
+  }
+
+  void GameRoom::jumpLevel(int jump) {
+    getGame()->switchRoom(new GameRoom(getGame(), index + jump));
   }
 }

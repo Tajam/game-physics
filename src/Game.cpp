@@ -83,7 +83,6 @@ namespace tjm {
       delete currentRoom;
       currentRoom = nextRoom;
       currentRoom->setup();
-      nextRoom = nullptr;
     }
   }
 }

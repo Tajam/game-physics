@@ -20,20 +20,23 @@ namespace tjm {
 
   void LevelSelectController::setup() {
     // center text
-    makeLabel("Play level", 80, sf::Vector2f(638, 278), sf::Color(40, 180, 180));
-    makeLabel("Play level", 80, sf::Vector2f(642, 282), sf::Color(50, 50, 50));
+    LabelObject* label;
+    label = (new LabelObject(getRoom()))->makeDefault("Play level", 80, sf::Vector2f(638, 278), sf::Color(40, 180, 180));
+    label->makeShadow(4);
     // left arrow
-    makeLabel("<", 120, sf::Vector2f(538, 358), sf::Color(40, 180, 180));
-    makeLabel("<", 120, sf::Vector2f(542, 362), sf::Color(50, 50, 50));
+    label = (new LabelObject(getRoom()))->makeDefault("<", 120, sf::Vector2f(538, 358), sf::Color(40, 180, 180));
+    label->makeShadow(4);
     // right arrow
-    makeLabel(">", 120, sf::Vector2f(738, 358), sf::Color(40, 180, 180));
-    makeLabel(">", 120, sf::Vector2f(742, 362), sf::Color(50, 50, 50));
+    label = (new LabelObject(getRoom()))->makeDefault(">", 120, sf::Vector2f(738, 358), sf::Color(40, 180, 180));
+    label->makeShadow(4);
     // center number
-    optionObjects.push_back(makeLabel(std::to_string(selectedLevel + 1), 120, sf::Vector2f(638, 358), sf::Color(40, 180, 180)));
-    optionShadows.push_back(makeLabel(std::to_string(selectedLevel + 1), 120, sf::Vector2f(642, 362), sf::Color(50, 50, 50)));
+    label = (new LabelObject(getRoom()))->makeDefault(std::to_string(selectedLevel + 1), 120, sf::Vector2f(638, 358), sf::Color(40, 180, 180));
+    label->makeShadow(4);
+    optionObjects.push_back(label);
     // back
-    optionObjects.push_back(makeLabel("Back", 80, sf::Vector2f(638, 638), sf::Color(40, 180, 180)));
-    optionShadows.push_back(makeLabel("Back", 80, sf::Vector2f(642, 642), sf::Color(50, 50, 50)));
+    label = (new LabelObject(getRoom()))->makeDefault("Back", 80, sf::Vector2f(638, 638), sf::Color(40, 180, 180));
+    label->makeShadow(4);
+    optionObjects.push_back(label);
   }
 
   void LevelSelectController::update(int64_t deltaTime) {
@@ -41,7 +44,6 @@ namespace tjm {
       if (!pressed) {
         optionObjects[selectedOption]->setSize(80);
         optionObjects[selectedOption]->setColor(sf::Color(40, 180, 180));
-        optionShadows[selectedOption]->setSize(80);
         selectedOption--;
         if (selectedOption < 0) {
           selectedOption = maxOption - 1;
@@ -53,7 +55,6 @@ namespace tjm {
       if (!pressed) {
         optionObjects[selectedOption]->setSize(80);
         optionObjects[selectedOption]->setColor(sf::Color(40, 180, 180));
-        optionShadows[selectedOption]->setSize(80);
         selectedOption++;
         if (selectedOption >= maxOption) {
           selectedOption = 0;
@@ -68,7 +69,6 @@ namespace tjm {
           selectedLevel = maxLevel - 1;
         }
         optionObjects[selectedOption]->setText(std::to_string(selectedLevel + 1));
-        optionShadows[selectedOption]->setText(std::to_string(selectedLevel + 1));
         Audio::playSound("coin.wav");
         pressed = true;
       }
@@ -79,7 +79,6 @@ namespace tjm {
           selectedLevel = 0;
         }
         optionObjects[selectedOption]->setText(std::to_string(selectedLevel + 1));
-        optionShadows[selectedOption]->setText(std::to_string(selectedLevel + 1));
         Audio::playSound("coin.wav");
         pressed = true;
       }
@@ -101,20 +100,8 @@ namespace tjm {
     float rate = (float)timing / maxTiming;
     float degree = 360.f * rate;
     float value = sin( degree * PI / 180);
-    optionShadows[selectedOption]->setSize(90 + 20 * value);
     optionObjects[selectedOption]->setSize(90 + 20 * value);
     optionObjects[selectedOption]->setColor(sf::Color(180, 40.f + value * 100.f, 180.f + value * 40.f));
-  }
-
-  LabelObject* LevelSelectController::makeLabel(std::string text, unsigned int size, sf::Vector2f position, sf::Color color) {
-    LabelObject* label = new LabelObject(getRoom());
-    label->setFont("../assets/fonts/Jupiter.ttf");
-    label->setText(text);
-    label->setColor(color);
-    label->setSize(size);
-    label->setOrientation(0, position);
-    getRoom()->Instantiate(label);
-    return label;
   }
 
   void LevelSelectController::runOption(int option) {

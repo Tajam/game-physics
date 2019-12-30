@@ -25,8 +25,9 @@ namespace tjm {
     };
 
     for (int i = 0; i < items.size(); i++) {
-      optionObjects.push_back(makeLabel(items[i], sf::Vector2f(638, 368 + i * 60), sf::Color(40, 180, 180)));
-      optionShadows.push_back(makeLabel(items[i], sf::Vector2f(642, 372 + i * 60), sf::Color(50, 50, 50)));
+      LabelObject* label = (new LabelObject(getRoom()))->makeDefault(items[i], 80, sf::Vector2f(638, 368 + i * 60), sf::Color(40, 180, 180));
+      label->makeShadow(4);
+      optionObjects.push_back(label);
     }
   }
 
@@ -36,7 +37,6 @@ namespace tjm {
       if (!pressed) {
         optionObjects[selectedOption]->setSize(80);
         optionObjects[selectedOption]->setColor(sf::Color(40, 180, 180));
-        optionShadows[selectedOption]->setSize(80);
         selectedOption--;
         if (selectedOption < 0) {
           selectedOption = maxOption - 1;
@@ -48,7 +48,6 @@ namespace tjm {
       if (!pressed) {
         optionObjects[selectedOption]->setSize(80);
         optionObjects[selectedOption]->setColor(sf::Color(40, 180, 180));
-        optionShadows[selectedOption]->setSize(80);
         selectedOption++;
         if (selectedOption >= maxOption) {
           selectedOption = 0;
@@ -74,20 +73,8 @@ namespace tjm {
     float rate = (float)timing / maxTiming;
     float degree = 360.f * rate;
     float value = sin( degree * PI / 180);
-    optionShadows[selectedOption]->setSize(90 + 20 * value);
     optionObjects[selectedOption]->setSize(90 + 20 * value);
     optionObjects[selectedOption]->setColor(sf::Color(180, 40.f + value * 100.f, 180.f + value * 40.f));
-  }
-
-  LabelObject* StartRoomController::makeLabel(std::string text, sf::Vector2f position, sf::Color color) {
-    LabelObject* label = new LabelObject(getRoom());
-    label->setFont("../assets/fonts/Jupiter.ttf");
-    label->setText(text);
-    label->setColor(color);
-    label->setSize(80);
-    label->setOrientation(0, position);
-    getRoom()->Instantiate(label);
-    return label;
   }
 
   void StartRoomController::runOption(int option) {

@@ -22,11 +22,9 @@ namespace tjm {
       int64_t maxTiming;
       int64_t timing;
       std::vector<LabelObject*> optionObjects;
-      std::vector<LabelObject*> optionShadows;
       bool pressed;
 
       // methods
-      LabelObject* makeLabel(std::string text, unsigned int size, sf::Vector2f position, sf::Color color);
       void runOption(int option);
   };
 }

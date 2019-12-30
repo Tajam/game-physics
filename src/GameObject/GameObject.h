@@ -18,7 +18,7 @@ namespace tjm {
 
       // structs
       GameObject(Room* room);
-      ~GameObject();
+      virtual ~GameObject();
 
       // setters
       void setSpriteSheet(SpriteSheet* spriteSheet);

@@ -1,24 +1,25 @@
-#ifndef PLAYEROBJECT_H
-#define PLAYEROBJECT_H
+#ifndef TRAPOBJECT_H
+#define TRAPOBJECT_H
 
 #include "../../GameObject.h"
 
 namespace tjm {
-  class PlayerObject : public GameObject {
+  class GameRoom;
+
+  class TrapObject : public GameObject {
     public:
       // structs
-      PlayerObject(Room* room);
-
+      TrapObject(GameRoom* room);
+      
       // overrides
-      void setup();
-      void update(int64_t deltaTime);
       b2BodyDef* defineBody();
       b2FixtureDef* defineFixture();
       SpriteSheet* defineSprites();
+      void onCollisionEnter(GameObject* other);
+      
     private:
       // fields
-      bool jumped;
-
+      GameRoom* room;
   };
 }
 

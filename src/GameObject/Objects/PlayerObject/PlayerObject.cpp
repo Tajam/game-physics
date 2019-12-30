@@ -2,7 +2,9 @@
 #include "../../../Audio/Audio.h"
 
 namespace tjm {
-  PlayerObject::PlayerObject(Room* room) : GameObject(room) { }
+  PlayerObject::PlayerObject(Room* room) : GameObject(room) {
+    setTag("player");
+  }
 
   void PlayerObject::setup() {
     this->jumped = sf::Keyboard::isKeyPressed(sf::Keyboard::Enter);
@@ -45,18 +47,9 @@ namespace tjm {
     getBody()->ApplyForceToCenter(0.25f * -velocity, true);
   }
 
-  void PlayerObject::onCollisionEnter(GameObject* other) {
-    
-  }
-
-  void PlayerObject::onCollisionExit(GameObject* other) {
-
-  }
-
   b2BodyDef* PlayerObject::defineBody() {
     b2BodyDef* def = new b2BodyDef();
     def->type = b2BodyType::b2_dynamicBody;
-    def->position = b2Vec2(100.f * SFMLToB2, 100.f * SFMLToB2);
     return def;
   }
 

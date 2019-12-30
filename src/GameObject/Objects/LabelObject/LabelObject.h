@@ -19,6 +19,9 @@ namespace tjm {
       void setOrientation(float rotation, sf::Vector2f position);
       void setOrientation(sf::Vector2f position);
       void setOrientation(float rotation);
+      void makeShadow(int offset);
+      LabelObject* makeDefault(std::string text, unsigned int size, sf::Vector2f position, sf::Color color);
+     
 
       // getter
       sf::Text* getText();
@@ -30,6 +33,9 @@ namespace tjm {
       // fields
       sf::Font* font;
       sf::Text* text;
+      sf::Text* sText;
+      bool haveShadow;
+      int offset;
   };
 }
 

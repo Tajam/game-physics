@@ -14,15 +14,11 @@ namespace tjm {
       void open();
       void step(int64_t deltaTime);
 
-      // methods
-      LabelObject* makeLabel(std::string text, unsigned int size, sf::Vector2f position, sf::Color color);
-
       // fields
       bool pressed;
       int64_t timing;
       int64_t maxTiming;
       LabelObject* backLabel;
-      LabelObject* backShadow;
   };
 }
 

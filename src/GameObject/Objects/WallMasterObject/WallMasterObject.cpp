@@ -22,11 +22,12 @@ namespace tjm {
     return def;
   }
 
-  void WallMasterObject::buildWall(std::vector<b2Vec2> points) {
+  void WallMasterObject::buildWall(b2Vec2 position, b2Vec2 size) {
     b2FixtureDef* def = new b2FixtureDef();
     b2PolygonShape* shape = new b2PolygonShape();
-    b2Vec2* vertices = points.data();
-    shape->Set(vertices, points.size());
+    b2Vec2 _size(size.x / 2, size.y / 2);
+    b2Vec2 _position(position.x + _size.x, position.y + _size.y);
+    shape->SetAsBox(_size.x, _size.y, _position, 0);
     def->shape = shape;
     getBody()->CreateFixture(def);
   }
