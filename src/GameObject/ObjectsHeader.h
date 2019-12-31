@@ -5,6 +5,7 @@
 #include "Objects/PlayerObject/PlayerObject.h"
 #include "Objects/CoinObject/CoinObject.h"
 #include "Objects/TrapObject/TrapObject.h"
+#include "Objects/DynamicWallObject/DynamicWallObject.h"
 #include "Objects/StartingPointObject/StartingPointObject.h"
 #include "Objects/EndingPointObject/EndingPointObject.h"
 #include "Objects/TileMasterObject/TileMasterObject.h"

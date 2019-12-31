@@ -96,8 +96,12 @@ namespace tjm {
         file >> data;
         switch(data) {
           // dynamic wall
-          case 7:
-          break;
+          case 7: {
+            DynamicWallObject* object = new DynamicWallObject(this);
+            Instantiate(object);
+            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f) * SFMLToB2), 0);
+            break;
+          }
           // air bubble
           case 11:
           break;

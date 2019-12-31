@@ -2,6 +2,7 @@
 echo    Building all game objects
 for %%p in (
   CoinObject/
+  DynamicWallObject/
   EndingPointObject/
   GameClearObject/
   GameFailObject/
