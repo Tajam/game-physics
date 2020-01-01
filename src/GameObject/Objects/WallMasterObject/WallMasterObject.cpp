@@ -10,6 +10,7 @@ namespace tjm {
     b2BodyDef* def = new b2BodyDef();
     def->position = b2Vec2(0, 0);
     def->type = b2BodyType::b2_staticBody;
+    def->allowSleep = true;
     return def;
   }
 

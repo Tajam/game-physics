@@ -1,9 +1,14 @@
 #ifndef GAMEROOM_H
 #define GAMEROOM_H
 
+#define PATH_LIST std::vector<std::vector<std::pair<sf::Vector2i, int64_t>>>
+
 #include "../../Room.h"
 
 namespace tjm {
+  class DoorObject;
+  class SwitchObject;
+
   class GameRoom : public Room {
     public:
       // structs
@@ -11,6 +16,7 @@ namespace tjm {
 
       // methods
       void gainCoin();
+      void toggleSwitch();
       void resetGameTiming();
       void gameClear();
       void gameFail();
@@ -30,10 +36,12 @@ namespace tjm {
       int coins;
       int score;
       int64_t gameTiming;
-      int64_t gameMaxTiming;
       int64_t totalTiming;
       int64_t expectedTiming;
       bool timeLimit;
+
+      std::vector<DoorObject*> doors;
+      std::vector<SwitchObject*> switches;
 
       // overrides
       void open();
@@ -44,6 +52,7 @@ namespace tjm {
       void loadWalls();
       void loadObjects();
       void loadTiles();
+      PATH_LIST loadPath();
   };
 }
 

@@ -1,9 +1,12 @@
 @echo off
 echo    Building all game objects
 for %%p in (
+  AirBubbleObject/
   CoinObject/
+  DoorObject/
   DynamicWallObject/
   EndingPointObject/
+  EnemyObject/
   GameClearObject/
   GameFailObject/
   LabelObject/
@@ -11,6 +14,7 @@ for %%p in (
   PlayerObject/
   StartingPointObject/
   StartRoomController/
+  SwitchObject/
   TileMasterObject/
   TrapObject/
   WallMasterObject/

@@ -3,6 +3,9 @@
 #include <fstream>
 #include <sstream>
 
+#define PATH_LIST std::vector<std::vector<std::pair<sf::Vector2i, int64_t>>>
+#define PATH std::vector<std::pair<sf::Vector2i, int64_t>>
+
 namespace tjm {
   GameRoom::GameRoom(Game* game, int level)
   : Room(game, sf::Vector2i(3200, 1600)) {
@@ -17,8 +20,7 @@ namespace tjm {
     coins = 0;
     score = 0;
     totalTiming = 0;
-    gameTiming = 0;
-    gameMaxTiming = 10000000;
+    gameTiming = 10000000;
     expectedTiming = 10000000;
     timeLimit = false;
   }
@@ -64,7 +66,12 @@ namespace tjm {
 
     // time limitation
     if (started) {
-
+      totalTiming += deltaTime;
+      gameTiming -= deltaTime;
+      if (gameTiming <= 0 && timeLimit) {
+        gameFail();
+      }
+      float rate = (float)gameTiming / 10000000;
     }
   }
 
@@ -89,6 +96,8 @@ namespace tjm {
   }
 
   void GameRoom::loadObjects() {
+    PATH_LIST paths = loadPath();
+    int enemyCount = 0;
     std::ifstream file("../assets/data/" + std::to_string(index) + "/object");
     int data;
     for (int y = 0; y < 100; y++) {
@@ -99,22 +108,33 @@ namespace tjm {
           case 7: {
             DynamicWallObject* object = new DynamicWallObject(this);
             Instantiate(object);
-            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f) * SFMLToB2), 0);
+            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f + 8.f) * SFMLToB2), 0);
             break;
           }
           // air bubble
-          case 11:
-          break;
+          case 11: {
+            AirBubbleObject* object = new AirBubbleObject(this);
+            Instantiate(object);
+            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f + 8.f) * SFMLToB2), 0);
+            expectedTiming += 10000000;
+            break;
+          }
           // trap
           case 12: {
             TrapObject* object = new TrapObject(this);
             Instantiate(object);
-            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f) * SFMLToB2), 0);
+            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f + 8.f) * SFMLToB2), 0);
             break;
           }
           // enemy
-          case 14:
-          break;
+          case 14: {
+            EnemyObject* object = new EnemyObject(this, paths[enemyCount]);
+            Instantiate(object);
+            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f + 8.f) * SFMLToB2), 0);
+            object->setAnchor();
+            enemyCount++;
+            break;
+          }
           // start point
           case 18: {
             StartingPointObject* object = new StartingPointObject(this);
@@ -132,21 +152,29 @@ namespace tjm {
             break;
           }
           // switch
-          case 21:
-          break;
+          case 21: {
+            SwitchObject* object = new SwitchObject(this);
+            Instantiate(object);
+            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f + 8.f) * SFMLToB2), 0);
+            switches.push_back(object);
+            break;
+          }
           // coin
           case 23: {
             CoinObject* object = new CoinObject(this);
             Instantiate(object);
-            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f) * SFMLToB2), 0);
+            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f + 8.f) * SFMLToB2), 0);
             break;
           }
-          // blue door 
-          case 34:
-          break;
           // red door
-          case 35:
-          break;
+          case 32:
+          case 33: {
+            DoorObject* object = new DoorObject(this, (data == 33));
+            Instantiate(object);
+            object->getBody()->SetTransform(b2Vec2(((float)x * 16.f + 8.f) * SFMLToB2, ((float)y * 16.f + 8.f) * SFMLToB2), 0);
+            doors.push_back(object);
+            break;
+          }
         }
       }
     }
@@ -166,12 +194,40 @@ namespace tjm {
     Instantiate(tileMaster);
   }
 
+  PATH_LIST GameRoom::loadPath() {
+    std::ifstream file("../assets/data/" + std::to_string(index) + "/path");
+    PATH_LIST paths;
+    int c;
+    while(file >> c) {
+      PATH path;
+      for (int i = 0; i < c; i++) {
+        int x, y;
+        int64_t t;
+        file >> x >> y >> t;
+        sf::Vector2i position(x, y);
+        std::pair<sf::Vector2i, int64_t> p(position, t);
+        path.push_back(p);
+      }
+      paths.push_back(path);
+    }
+    return paths;
+  }
+
   void GameRoom::gainCoin() {
     coins++;
   }
 
+  void GameRoom::toggleSwitch() {
+    for (int i = 0; i < doors.size(); i++) {
+      doors[i]->toggle();
+    }
+    for (int i = 0; i < switches.size(); i++) {
+      switches[i]->toggle();
+    }
+  }
+
   void GameRoom::resetGameTiming() {
-    gameTiming = gameMaxTiming;
+    gameTiming = 10000000;
   }
 
   void GameRoom::gameClear() {
