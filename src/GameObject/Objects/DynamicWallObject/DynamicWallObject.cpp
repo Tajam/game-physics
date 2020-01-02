@@ -17,7 +17,7 @@ namespace tjm {
     box->SetAsBox(7.6f * SFMLToB2, 7.6f * SFMLToB2);
     def->shape = box;
     def->density = 25.f;
-    def->friction = 0.25f;
+    def->friction = 0.1f;
     def->restitution = 0.f;
     return def;
   }

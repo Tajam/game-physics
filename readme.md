@@ -23,6 +23,7 @@ Contacts   : 0123482077 oojinheng@gmail.com
 ## Requirements
 
 OS: Window 10 (Home)
+
 Compiler: [MinGW Build 7.3.0 (32-bit)](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/7.3.0/threads-posix/dwarf/i686-7.3.0-release-posix-dwarf-rt_v5-rev0.7z/download)
 
 **The G++ compiler version must match the requirement as SFML [depends on it](https://www.sfml-dev.org/download/sfml/2.5.1/)**

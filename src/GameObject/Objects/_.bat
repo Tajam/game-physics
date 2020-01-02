@@ -16,6 +16,7 @@ for %%p in (
   StartRoomController/
   SwitchObject/
   TileMasterObject/
+  TimerDisplayObject/
   TrapObject/
   WallMasterObject/
 ) do (

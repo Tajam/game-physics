@@ -8,6 +8,7 @@
 namespace tjm {
   class DoorObject;
   class SwitchObject;
+  class TimerDisplayObject;
 
   class GameRoom : public Room {
     public:
@@ -42,6 +43,7 @@ namespace tjm {
 
       std::vector<DoorObject*> doors;
       std::vector<SwitchObject*> switches;
+      TimerDisplayObject* timer;
 
       // overrides
       void open();

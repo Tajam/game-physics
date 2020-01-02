@@ -31,6 +31,18 @@ namespace tjm {
       }
       getBody()->SetTransform(anchor + b2Vec2(posX, posY), 0);
       anchor = getBody()->GetPosition();
+
+      // change facing direction
+      sf::Vector2i facePos = paths[index].first;
+      if (facePos.x > 0) {
+        getSpriteSheet()->setFrame(1);
+      } else if (facePos.x < 0) {
+        getSpriteSheet()->setFrame(3);
+      } else if (facePos.y > 0) {
+        getSpriteSheet()->setFrame(2);
+      } else if (facePos.y < 0) {
+        getSpriteSheet()->setFrame(0);
+      }
     }
   }
       

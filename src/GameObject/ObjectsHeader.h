@@ -16,6 +16,7 @@
 #include "Objects/WallMasterObject/WallMasterObject.h"
 #include "Objects/GameClearObject/GameClearObject.h"
 #include "Objects/GameFailObject/GameFailObject.h"
+#include "Objects/TimerDisplayObject/TimerDisplayObject.h"
 #include "Objects/LevelSelectController/LevelSelectController.h"
 #include "Objects/StartRoomController/StartRoomController.h"
 #include "Objects/LabelObject/LabelObject.h"

@@ -22,7 +22,7 @@ namespace tjm {
     totalTiming = 0;
     gameTiming = 10000000;
     expectedTiming = 10000000;
-    timeLimit = false;
+    timeLimit = true;
   }
 
   void GameRoom::open() {
@@ -60,6 +60,10 @@ namespace tjm {
       setFollow(player->getID());
       Audio::playSound("start.wav");
       playerID = player->getID();
+
+      // timer
+      timer = new TimerDisplayObject(this);
+      Instantiate(timer);
     } else {
       timing += deltaTime;
     }
@@ -68,10 +72,12 @@ namespace tjm {
     if (started) {
       totalTiming += deltaTime;
       gameTiming -= deltaTime;
+      float rate = (float)gameTiming / 10000000;
+      timer->update(rate);
       if (gameTiming <= 0 && timeLimit) {
         gameFail();
+        timer->update(0);
       }
-      float rate = (float)gameTiming / 10000000;
     }
   }
 
@@ -231,11 +237,14 @@ namespace tjm {
   }
 
   void GameRoom::gameClear() {
-    Destroy(playerID);
-    int maxScore = 1000000 + coins * 250000;
-    int score = (float)maxScore * ((float)(expectedTiming - totalTiming) / expectedTiming);
-    Instantiate(new GameClearObject(this, score));
-    Audio::playSound("win.wav");
+    if (started) {
+      Destroy(playerID);
+      int maxScore = 1000000 + coins * 250000;
+      int score = (float)maxScore * ((float)(expectedTiming - totalTiming) / expectedTiming);
+      Instantiate(new GameClearObject(this, score));
+      Audio::playSound("win.wav");
+      started = false;
+    }
   }
 
   void GameRoom::gameFail() {
