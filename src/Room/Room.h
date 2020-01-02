@@ -51,6 +51,8 @@ namespace tjm {
       Camera* camera;
       unsigned long followObject;
       unsigned long objectCount;
+      int64_t requiredTime;
+      int64_t frameTime;
       bool isFollow;
       bool haveBackground;
       std::vector<GameObject*> addingObjects;

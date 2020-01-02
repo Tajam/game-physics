@@ -18,6 +18,9 @@ namespace tjm {
     this->camera = new Camera(game->getWindow(), roomSize);
     this->isFollow = false;
     this->haveBackground = false;
+
+    requiredTime = 16666;
+    frameTime = 0;
   }
 
   Room::~Room() {
@@ -65,8 +68,14 @@ namespace tjm {
 
   void Room::update(int64_t deltaTime) {
     step(deltaTime);
-    world->Step(1.f / 60.f, 2.f, 6.f);
 
+    // physics step
+    frameTime += deltaTime;
+    while (frameTime >= requiredTime) {
+      frameTime -= requiredTime;
+      world->Step(1.f / 60.f, 8.f, 3.f);
+    }
+    
     // Adding new objects
     for (GameObject* obj: addingObjects) {
       objects.insert(std::pair<unsigned long, GameObject*>(obj->getID(), obj));
