@@ -12,20 +12,27 @@ namespace tjm {
   std::map<std::string, sf::SoundBuffer*> Audio::soundCache;
   std::string Audio::playingMusic;
   sf::Music Audio::music;
-  sf::Sound Audio::sound;
+  std::vector<sf::Sound> Audio::sounds {
+    sf::Sound(), sf::Sound(), sf::Sound()
+  };
+  int Audio::soundCounter = 0;
 
   void Audio::playSound(std::string fileName) {
     std::string path = "../assets/sounds/" + fileName;
     if (Audio::soundCache.find(fileName) != Audio::soundCache.end()) {
-      Audio::sound.setBuffer(*Audio::soundCache[fileName]);
+      Audio::sounds[Audio::soundCounter].setBuffer(*Audio::soundCache[fileName]);
     } else {
       sf::SoundBuffer* buffer = new sf::SoundBuffer();
       if (buffer->loadFromFile(path.c_str())) {
-        Audio::sound.setBuffer(*buffer);
+        Audio::sounds[Audio::soundCounter].setBuffer(*buffer);
         Audio::soundCache.insert(std::pair<std::string, sf::SoundBuffer*>(fileName, buffer));
       }
     }
-    Audio::sound.play();
+    Audio::sounds[Audio::soundCounter].play();
+    Audio::soundCounter++;
+    if (Audio::soundCounter >= 3) {
+      Audio::soundCounter = 0;
+    }
   }
 
   void Audio::playMusic(std::string fileName) {

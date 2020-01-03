@@ -23,8 +23,9 @@ namespace tjm {
       // fields
       static std::map<std::string, sf::SoundBuffer*> soundCache;
       static sf::Music music;
-      static sf::Sound sound;
+      static std::vector<sf::Sound> sounds;
       static std::string playingMusic;
+      static int soundCounter;
 
   };
 }

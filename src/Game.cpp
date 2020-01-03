@@ -6,12 +6,14 @@ Contacts   : 0123482077 oojinheng@gmail.com
 *******************************************/
 
 #include "Game.h"
+#include <ctime>
 
 namespace tjm {
   Game::Game() {
     isSwitching = false;
     isStopping = false;
     isRunning = false;
+    pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::F12);
 
     // physic world
     b2Vec2 gravity(0.0f, .5f);
@@ -66,6 +68,19 @@ namespace tjm {
       currentRoom->update(time.asMicroseconds());
       
       window->display();
+
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::F12)) {
+        if (!pressed) {
+          pressed = true;
+          sf::Texture texture;
+          texture.create(window->getSize().x, window->getSize().y);
+          texture.update(*window);
+          std::time_t result = std::time(nullptr);
+          texture.copyToImage().saveToFile("../ss/" + std::to_string(result) + ".png");
+        }
+      } else {
+        pressed = false;
+      }
 
       if (isStopping) {
         break;

@@ -6,6 +6,7 @@ Contacts   : 0123482077 oojinheng@gmail.com
 *******************************************/
 
 #include "SwitchObject.h"
+#include "../../../Audio/Audio.h"
 
 namespace tjm {
   SwitchObject::SwitchObject(GameRoom* room) : GameObject(room) {
@@ -19,6 +20,7 @@ namespace tjm {
       if (!isEntered) {
         isEntered = true;
         room->toggleSwitch();
+        Audio::playSound("toggle.wav");
       }
     }
   }

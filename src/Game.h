@@ -42,6 +42,7 @@ namespace tjm {
       bool isRunning;
       bool isSwitching;
       bool isStopping;
+      bool pressed;
 
       // methods
       void _switchRoom();
