@@ -17,7 +17,7 @@ namespace tjm {
     _haveSprite = false;
     maxOption = 2;
     selectedOption = 0;
-    maxLevel = 7;
+    maxLevel = 6;
     selectedLevel = 0;
     timing = 0;
     maxTiming = 500000;
