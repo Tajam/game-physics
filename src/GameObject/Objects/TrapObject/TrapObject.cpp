@@ -22,7 +22,7 @@ namespace tjm {
   b2FixtureDef* TrapObject::defineFixture() {
     b2FixtureDef* def = new b2FixtureDef();
     b2PolygonShape* box = new b2PolygonShape();
-    box->SetAsBox(8.f * SFMLToB2, 8.f * SFMLToB2);
+    box->SetAsBox(6.f * SFMLToB2, 6.f * SFMLToB2);
     def->shape = box;
     def->isSensor = true;
     return def;

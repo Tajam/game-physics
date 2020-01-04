@@ -3,4 +3,5 @@ obj/*
 !obj/_.bat
 .vscode
 tiled
+ss
 !ss/readme.md

@@ -20,7 +20,7 @@ namespace tjm {
     started = false;
     spawned = false;
     index = level;
-    maxLevel = 5;
+    maxLevel = 6;
     timing = 0;
     maxTiming = 2000000;
 
